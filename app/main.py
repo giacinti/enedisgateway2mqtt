@@ -618,8 +618,12 @@ if __name__ == '__main__':
         f.log("InfluxDB connect :")
 
         date_utils.date_helper = DateHelper(timezone=tzlocal())
+        if "url" in config['influxdb']:
+            influx_url=f"{config['influxdb']['url']}"
+        else:
+            influx_url=f"http://{config['influxdb']['host']}:{config['influxdb']['port']}"
         influxdb = influxdb_client.InfluxDBClient(
-            url=f"http://{config['influxdb']['host']}:{config['influxdb']['port']}",
+            url=influx_url,
             token=config['influxdb']['token'],
             org=config['influxdb']['org'],
             timeout="600000"
